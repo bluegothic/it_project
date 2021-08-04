@@ -1,0 +1,105 @@
+/* stylelint-disable property-no-vendor-prefix */
+
+/*
+ * Globals
+ */
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: rgb(143, 47, 47);
+}
+
+/* Custom default button */
+/* .btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  color: #004F82;
+  text-shadow: none; Prevent inheritance from `body`
+  background-color: #fff;
+  border: 2px solid #004F82;
+} */
+
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  text-align: center;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.cover-container {
+  width: 100%;
+  height: 80px;
+  background-color: #a9a9a9;
+  text-align: center;
+  padding-right: 20%;
+}
+
+/* Padding for spacing */
+.inner {
+  padding: 30px;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+/*
+ * Header
+ */
+.masthead{
+  width: 100%;
+  height: 80px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.masthead-brand {
+  color: #004F82;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.masthead-nav > li {
+  display: inline-block;
+}
+.masthead-nav > li + li {
+  margin-left: 20px;
+}
+.masthead-nav > li > a {
+  padding-right: 0;
+  padding-left: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  border-bottom: 2px solid transparent;
+}
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+  background-color: transparent;
+  border-bottom-color: rgba(230, 52, 52, 0.25);
+}
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+  color: #004F82;
+  border-bottom-color: #004F82;
+}
+
+@media (min-width: 768px) {
+  .masthead-brand {
+    float: left;
+  }
+  .masthead-nav {
+    float: right;
+  }
+}

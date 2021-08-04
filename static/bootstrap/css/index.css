@@ -1,0 +1,27 @@
+.jumbotron{
+  height: 300px;
+}
+
+/* Custom default button */
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  width: 150px;
+  color: #004F82;
+  background-color: #fff;
+  border: 2px solid #004F82;
+  margin-top: 50px;
+}
+
+.page-header{
+  color: #004F82;
+}
+
+.list-group-item-heading{
+  margin-top: 10px;
+  color: #004F82;
+}
+
+.list-group-item-text{
+  text-align: right;
+}
