@@ -4,7 +4,8 @@ from django.db import models
 from django.forms import fields
 from django.template.defaultfilters import title
 from django.contrib.auth.models import User
-from rango.models import Page, Category, UserProfile
+from rango.models import Page, Category, UserProfile, Comment
+
 
 class CategoryForm(forms.ModelForm):
   name = forms.CharField(max_length=128, help_text="Please enter the category name.")
@@ -46,4 +47,11 @@ class UserProfileForm(forms.ModelForm):
   class Meta:
     model = UserProfile
     fields = ('website', 'picture',)
+
+class contextForm(forms.ModelForm):
+  context = forms.CharField(max_length=128, help_text="Please enter the comment.")
+
+  class Meta:
+    model = Comment
+    exclude = ('comment_id', 'author_id', 'topic_id', 'date')
 

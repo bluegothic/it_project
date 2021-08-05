@@ -36,3 +36,11 @@ class UserProfile(models.Model):
 
   def __str__(self):
       return super().user.username
+
+
+class Comment(models.Model):
+  comment_id = models.IntegerField(primary_key=True)
+  author_id = models.CharField(max_length=128)
+  topic_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+  date = models.DateTimeField(auto_now_add=True)
+  context = models.CharField(max_length=128)

@@ -1,5 +1,5 @@
 from django import forms
-from rango.forms import CategoryForm, PageForm,UserForm,UserProfileForm
+from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm, contextForm
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.http import HttpResponse, request
@@ -162,3 +162,32 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
     
     request.session['visits'] = visits
+
+
+def add_comment(request, category_name_slug):
+  user = request.user
+  try:
+    category = Category.objects.get(slug=category_name_slug)
+  except:
+    category = None
+
+  if category is None:
+    return redirect('/rango/')
+
+  form = contextForm()
+
+  if request.method == 'POST':
+    form = contextForm(request.POST)
+
+    if form.is_valid():
+      if category:
+        Comment = form.save(commit=False)
+        Comment.topic_id = category
+        Comment.author_id = user
+        Comment.views = 0
+        Comment.save()
+        return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
+    else:
+      print(form.errors)
+  context_dict = {'form': form, 'category': category}
+  return render(request, 'rango/add_comment.html', context=context_dict)
