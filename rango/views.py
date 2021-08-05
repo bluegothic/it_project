@@ -47,12 +47,20 @@ def show_category(request, category_name_slug):
 @login_required
 def add_category(request):
   form = CategoryForm()
+  user = request.user
 
   if request.method == 'POST':
     form = CategoryForm(request.POST)
 
     if form.is_valid():
-      form.save(commit=True)
+
+      Category = form.save(commit=False)
+      Category.author_id = user
+      Category.count1 = 0
+      Category.count2 = 0
+      Category.count3 = 0
+      Category.save()
+
       return redirect('/rango/')
     else:
       print(form.errors)

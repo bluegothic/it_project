@@ -8,14 +8,20 @@ from rango.models import Page, Category, UserProfile, Comment
 
 
 class CategoryForm(forms.ModelForm):
-  name = forms.CharField(max_length=128, help_text="Please enter the category name.")
+  name = forms.CharField(max_length=128, help_text="Please enter the title of your poll.")
   views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-  likes = forms.IntegerField(widget=forms.HiddenInput(),initial=0)
+  likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
   slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+  context = forms.CharField(max_length=512, help_text="Please enter the description.")
+  choice1 = forms.CharField(max_length=128, help_text="Please enter the choice 1 .")
+  choice2 = forms.CharField(max_length=128, help_text="Please enter the choice 2 .")
+  choice3 = forms.CharField(max_length=128, help_text="Please enter the choice 3 .")
 
   class Meta:
     model = Category
-    fields = ('name',)
+    fields = ('name', 'context', 'choice1', 'choice2', 'choice3',)
+    exclude = ('author_id', 'posttime', 'count1', 'count2', 'count3')
 
 class PageForm(forms.ModelForm):
   title = forms.CharField(max_length=128, help_text="Please enter the title of the page.")

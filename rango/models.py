@@ -9,6 +9,17 @@ class Category(models.Model):
   likes = models.IntegerField(default=0)
   slug = models.SlugField(unique=True)
 
+  author_id = models.CharField(max_length=128)
+  posttime = models.DateTimeField(auto_now_add=True)
+  context = models.CharField(max_length=512)
+
+  choice1 = models.CharField(max_length=128)
+  choice2 = models.CharField(max_length=128)
+  choice3 = models.CharField(max_length=128)
+  count1 = models.IntegerField(default=0)
+  count2 = models.IntegerField(default=0)
+  count3 = models.IntegerField(default=0)
+
   def save(self, *args, **kwargs):
     self.slug = slugify(self.name)
     super(Category, self).save(*args, **kwargs)
