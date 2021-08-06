@@ -32,14 +32,15 @@
     </div>
 
     <form id="poll-form" class="text-left" method="post" action="{% url 'rango:poll' %}">
-      <label class="poll-option"><input type="radio" class="poll-radio" value="Coca-Cola">Coca-Cola</label>
+      {% csrf_token %}
+      <label class="poll-option"><input type="radio" name="poll" class="poll-radio" value="Coca-Cola">Coca-Cola</label>
       <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
           60%
         </div>
       </div>
       
-      <label class="poll-option"><input type="radio" class="poll-radio" value="Coca-Cola">Coca-Cola</label>
+      <label class="poll-option"><input type="radio" name="poll" class="poll-radio" value="Coca-Cola">Coca-Cola</label>
       <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
           40%
@@ -65,9 +66,13 @@
       </div>
     </div>
 
+    <div class="page-header text-left">
+      <h4>Post a comment</h4>
+    </div>
     <form id="comment_form" method="post" action="{% url 'rango:poll' %}">
 
       {% csrf_token %}
+      <textarea class="form-control" rows="3"></textarea>
       {% for hidden in form.hidden_fields %}
           {{ hidden }}
       {% endfor %}
