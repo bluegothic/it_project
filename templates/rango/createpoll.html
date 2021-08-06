@@ -1,0 +1,31 @@
+{% extends 'rango/base.html' %}
+{% load static %}
+
+{% block title_block %}
+  Create a Poll
+{% endblock %}
+
+{% block link_block %}
+  <link href="{% static 'bootstrap/css/createpoll.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body_block %}  
+  <div class="container text-left">
+    <div class="page-header text-left">
+      <h3>Create a new poll</h3>
+    </div>
+
+    <form id="category_form" class="form-horizontal" method="post" action="{% url 'rango:createpoll' %}">
+      {% csrf_token %}
+      {% for field in form %}
+        <fieldset class="control-group ">
+          <label class="control-label" for="id_{{ field.name }}">{{ field.help_text }}</label>
+          <div>{{ field }}</div>
+        </fieldset>
+      {% endfor %}
+      <input type="submit" name="submit" class="btn btn-lg btn-default text-left" value="Create Poll" />
+    </form>
+
+  </div>
+
+{% endblock %}

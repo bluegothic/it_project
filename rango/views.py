@@ -23,13 +23,11 @@ def index(request):
     return render(request, 'rango/index.html', context=context_dict)
 
 
-def about(request):
-    context_dict = {}
-    visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
+def myaccount(request):
+    return render(request, 'rango/myaccount.html')
 
-    return render(request, 'rango/about.html', context=context_dict)
-
+def poll(request):
+    return render(request, 'rango/poll.html')
 
 def show_category(request, category_name_slug):
     context_dict = {}
@@ -50,7 +48,7 @@ def show_category(request, category_name_slug):
     return render(request, 'rango/category.html', context=context_dict)
 
 
-@login_required
+# @login_required
 def add_poll(request):
     form = TopicForm()
     user = request.user
@@ -67,11 +65,11 @@ def add_poll(request):
             # topic.save()
             form.save(commit=True)
 
-            return redirect('/rango/')
+            return redirect('rango:index')
         else:
             print(form.errors)
 
-    return render(request, 'rango/add_poll.html', {'form': form})
+    return render(request, 'rango/createpoll.html', {'form': form})
 
 
 @login_required
