@@ -8,7 +8,7 @@
 
 {% block body_block %}
     <h1>Create a new poll</h1>
-    <form id="category_form" method="post" action="{% url 'rango:add_category' %}">
+    <form id="pollc-form" method="post" action="{% url 'rango:poll' %}">
         {% csrf_token %}
 {#        {% for hidden in form.hidden_fields %}#}
 {#            {{ hidden }}#}
