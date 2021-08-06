@@ -1,5 +1,5 @@
 from django import forms
-from rango.forms import TopicForm, PageForm, UserForm, UserProfileForm, contextForm
+from rango.forms import TopicForm, UserForm, UserProfileForm, ContextForm
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.http import HttpResponse, request
@@ -11,7 +11,7 @@ from datetime import datetime
 
 def index(request):
     category_list = Topic.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
+    page_list = Comment.objects.order_by('-views')[:5]
 
     context_dict = {}
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
@@ -27,27 +27,25 @@ def about(request):
     context_dict = {}
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
-
     return render(request, 'rango/about.html', context=context_dict)
 
 
 def show_poll(request, topic_title_slug):
-    context_dict = {}
-    # try:
-    category = Topic.objects.get(slug=topic_title_slug)
-    pages = Page.objects.filter(category=category)
-
-    context_dict['pages'] = pages
-    context_dict['category'] = category
-
-    print(pages.id)
-    print(category.id)
-    # selections = TopicChooseDetail.objects.get(topic_id=category.id)
-    # except Category.DoesNotExist:
-    #     context_dict['pages'] = None
-    #     context_dict['category'] = None
-
-    return render(request, 'rango/category.html', context=context_dict)
+    topic = Topic.objects.get(slug=topic_title_slug)
+    if request.method == 'POST':
+        op = request.POST.get('poll')
+        if op == 'op1':
+            topic.cnt1 += 1
+        elif op == 'op2':
+            topic.cnt2 += 1
+        elif op == 'op3':
+            topic.cnt3 += 1
+        elif op == 'op4':
+            topic.cnt4 += 1
+        elif op == 'op5':
+            topic.cnt5 += 1
+        topic.save()
+    return render(request, 'rango/poll.html', context={'topic': topic})
 
 
 @login_required
@@ -75,7 +73,6 @@ def add_poll(request):
             return redirect('/rango/')
         else:
             print(form.errors)
-
     return render(request, 'rango/add_poll.html', {'form': form})
 
 
@@ -201,10 +198,10 @@ def add_comment(request, category_name_slug):
     if category is None:
         return redirect('/rango/')
 
-    form = contextForm()
+    form = ContextForm()
 
     if request.method == 'POST':
-        form = contextForm(request.POST)
+        form = ContextForm(request.POST)
 
         if form.is_valid():
             if category:

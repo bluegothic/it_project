@@ -4,7 +4,7 @@ from django.db import models
 from django.forms import fields
 from django.template.defaultfilters import title
 from django.contrib.auth.models import User
-from rango.models import Page, Topic, UserProfile, Comment
+from rango.models import Topic, UserProfile, Comment
 
 
 class TopicForm(forms.ModelForm):
@@ -32,24 +32,26 @@ class TopicForm(forms.ModelForm):
         # exclude = ('author_id', 'posttime', 'count1', 'count2', 'count3')
 
 
-class PageForm(forms.ModelForm):
-    title = forms.CharField(max_length=128, help_text="Please enter the title of the page.")
-    url = forms.URLField(max_length=200, help_text="Please enter the URL of the page.")
-    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-
-    class Meta:
-        model = Page
-        exclude = ('category',)
-
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        url = cleaned_data.get('url')
-
-        if url and not url.startswith('http://'):
-            url = f'http//{url}'
-            cleaned_data['url'] = url
-
-        return cleaned_data
+class VoteForm(forms.ModelForm):
+    pass
+# class PageForm(forms.ModelForm):
+#     title = forms.CharField(max_length=128, help_text="Please enter the title of the page.")
+#     url = forms.URLField(max_length=200, help_text="Please enter the URL of the page.")
+#     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+#
+#     class Meta:
+#         model = Page
+#         exclude = ('category',)
+#
+#     def clean(self):
+#         cleaned_data = self.cleaned_data
+#         url = cleaned_data.get('url')
+#
+#         if url and not url.startswith('http://'):
+#             url = f'http//{url}'
+#             cleaned_data['url'] = url
+#
+#         return cleaned_data
 
 
 class UserForm(forms.ModelForm):
@@ -66,7 +68,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ('website', 'picture',)
 
 
-class contextForm(forms.ModelForm):
+class ContextForm(forms.ModelForm):
     context = forms.CharField(max_length=128, help_text="Please enter the comment.")
 
     class Meta:

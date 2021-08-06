@@ -1,0 +1,197 @@
+{#{% extends 'rango/base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block title_block %}#}
+{#    {% if topic %}#}
+{#        {{ topic.title }}#}
+{#    {% else %}#}
+{#        Unknown Topic#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+{##}
+{#{% block body_block %}#}
+{#    {% if topic %}#}
+{#        <h1>{{ topic.title }}</h1>#}
+{#        <p>{{ topic.context }}</p>#}
+{#        <p>{{ topic.deadline.date }}</p>#}
+{##}
+{#        Views: {{ topic.views }}#}
+{##}
+{#        Likes: {{ topic.likes }}#}
+{##}
+{#        {% if topic.type == 'S' %}#}
+{#            <p><input name="op" type="radio">{{ topic.option1 }}</p>#}
+{#            <p><input name="op" type="radio">{{ topic.option2 }}</p>#}
+{#            {% if topic.option3 %}#}
+{#                <p><input name="op" type="radio">{{ topic.option3 }}</p>#}
+{#            {% endif %}#}
+{#            {% if topic.option4 %}#}
+{#                <p><input name="op" type="radio">{{ topic.option4 }}</p>#}
+{#            {% endif %}#}
+{#            {% if topic.option5 %}#}
+{#                <p><input name="op" type="radio">{{ topic.option5 }}</p>#}
+{#            {% endif %}#}
+{#        {% else %}#}
+{#            <p><input type="radio">{{ topic.option1 }}</p>#}
+{#            <p><input type="radio">{{ topic.option2 }}</p>#}
+{#            {% if topic.option3 %}#}
+{#                <p><input type="radio">{{ topic.option3 }}</p>#}
+{#            {% endif %}#}
+{#            {% if topic.option4 %}#}
+{#                <p><input type="radio">{{ topic.option4 }}</p>#}
+{#            {% endif %}#}
+{#            {% if topic.option5 %}#}
+{#                <p><input type="radio">{{ topic.option5 }}</p>#}
+{#            {% endif %}#}
+{#        {% endif %}#}
+{##}
+{#        <a href="{% url 'rango:index' %}" class="btn btn-lg btn-default" role="button">Vote</a>#}
+{##}
+{#        {% if pages %}#}
+{#            <ul>#}
+{#                {% for page in pages %}#}
+{#                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        {% else %}#}
+{#            <strong>No pages currently in category.</strong>#}
+{#        {% endif %}#}
+{#        {% if user.is_authenticated %}#}
+{#            <a href="{% url 'rango:add_page' category.slug %}">Add Page</a><br/>#}
+{#            <a href="{% url 'rango:add_comment' category.slug %}">Add Comment</a> <br/>#}
+{#        {% endif %}#}
+{#    {% else %}#}
+{#        The specified topic does not exist.#}
+{#    {% endif %}#}
+{#{% endblock %}#}
+
+
+{% extends 'rango/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    {% if topic %}
+        {{ topic.title }}
+    {% else %}
+        Unknown Topic
+    {% endif %}
+{% endblock %}}
+
+{% block link_block %}
+    <link href="{% static 'bootstrap/css/poll.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{#{% block nav_block %}#}
+{#  <li><a href="{% url 'rango:index' %}">Home</a></li>#}
+{#  <li class="active"><a href="{% url 'rango:createpoll' %}">Poll</a></li>#}
+{#  <li><a href="{% url 'rango:login' %}">Sign in</a></li>#}
+{#{% endblock %}#}
+
+{% block body_block %}
+    <div class="container">
+        <div class="page-header text-left">
+            <h3>Poll</h3>
+        </div>
+
+        <div class="jumbotron text-left">
+            <h2>{{ topic.title }}</h2>
+            <p style="font-size: 13px;">{{ topic.context }}</p>
+            <p class="text-right jumbotron-time" style="font-size: 16px;">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                {{ topic.deadline.date }}
+            </p>
+        </div>
+
+        <form id="poll-form" class="text-left" method="post" action="{% url 'rango:show_poll' topic.slug %}">
+            {% csrf_token %}
+            <label class="poll-option"><input type="radio" name="poll" class="poll-radio" value="op1"
+                                              checked="checked">{{ topic.option1 }}</label>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                     style="width: 60%;">
+                    60%
+                </div>
+            </div>
+
+            <label class="poll-option"><input type="radio" name="poll" class="poll-radio" value="op2">{{ topic.option2 }}</label>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                     style="width: 60%;">
+                    60%
+                </div>
+            </div>
+
+            {% if topic.option3 %}
+                <label class="poll-option"><input type="radio" name="poll" class="poll-radio" value="op3">{{ topic.option3 }}
+                </label>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 60%;">
+                        60%
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if topic.option4 %}
+                <label class="poll-option"><input type="radio" name="poll" class="poll-radio" value="op4">{{ topic.option4 }}
+                </label>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 60%;">
+                        60%
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if topic.option5 %}
+                <label class="poll-option"><input type="radio" name="poll" class="poll-radio" value="op5">{{ topic.option5 }}
+                </label>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 60%;">
+                        60%
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="text-center">
+                <input type="submit" name="submit" class="btn btn-lg btn-default text-left" value="Vote"/>
+            </div>
+        </form>
+        <div class="page-header text-left">
+            <h3>Reviews</h3>
+        </div>
+
+        <div class="media text-left">
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object img-circle" src="{% static 'images/rango.jpg' %}" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">Media heading</h4>
+            </div>
+        </div>
+
+        <div class="page-header text-left">
+            <h4>Post a comment</h4>
+        </div>
+        {#        <form id="comment_form" method="post" action="{% url 'rango:poll' %}">#}
+        {##}
+        {#            {% csrf_token %}#}
+        {#            <textarea class="form-control" rows="3"></textarea>#}
+        {#            {% for hidden in form.hidden_fields %}#}
+        {#                {{ hidden }}#}
+        {#            {% endfor %}#}
+        {#            {% for field in form.visible_fields %}#}
+        {#                {{ field.errors }}#}
+        {#                {{ field.help_text }}#}
+        {#                {{ field }}#}
+        {#            {% endfor %}#}
+        {##}
+        {#            <input type="submit" name="submit" value="Add a comment" />#}
+        {#        </form>#}
+        {##}
+    </div>
+{% endblock %}

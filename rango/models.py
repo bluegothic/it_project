@@ -4,10 +4,11 @@ from django.contrib.auth.models import User
 from django.utils.timezone import now
 from datetime import timedelta
 
+MAX_CHAR_LEN = 128
+
 
 # Create your models here.
 class Topic(models.Model):
-    MAX_CHAR_LEN = 128
     author_user_id = models.CharField(max_length=MAX_CHAR_LEN)
     post_time = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(default=now() + timedelta(hours=24), blank=True)
@@ -37,12 +38,11 @@ class Topic(models.Model):
         return self.title
 
 
-class Page(models.Model):
-    id = models.AutoField(primary_key=True)
-    category = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    title = models.CharField(max_length=128)
-    url = models.URLField()
-    views = models.IntegerField(default=0)
+class Comment(models.Model):
+    # comment_author_id = models.ForeignKey(Topic, related_name='author_user_id', on_delete=models.CASCADE)
+    comment_topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=now())
+    context = models.CharField(max_length=MAX_CHAR_LEN)
 
     def __str__(self):
         return self.title
@@ -56,14 +56,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return super().user.username
-
-
-class Comment(models.Model):
-    comment_id = models.IntegerField(primary_key=True)
-    author_id = models.CharField(max_length=128)
-    topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
-    context = models.CharField(max_length=128)
 
 
 class PollRecord(models.Model):

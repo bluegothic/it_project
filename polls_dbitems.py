@@ -6,7 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 
 django.setup()
 
-from rango.models import Topic, Page
+from rango.models import Topic, Comment
 
 
 def populate():
@@ -35,7 +35,7 @@ def populate():
             add_page(c, p['title'], p['url'], views=p['views'])
 
     for c in Topic.objects.all():
-        for p in Page.objects.filter(category=c):
+        for p in Comment.objects.filter(category=c):
             print(f'- {c}: {p}')
 
 

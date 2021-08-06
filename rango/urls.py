@@ -7,7 +7,6 @@ app_name = 'rango'
 urlpatterns = [
   path('', views.index, name='index'),
   path('poll/createpoll', views.add_poll, name='add_poll'),
-
   path('poll/<slug:topic_title_slug>/', views.show_poll, name='show_poll'),
 
   path('about/', views.about, name='about'),
