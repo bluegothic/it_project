@@ -8,45 +8,28 @@ from rango.models import Page, Topic, UserProfile, Comment
 
 
 class TopicForm(forms.ModelForm):
-    # text_max_length = 128
-    # title = forms.CharField(max_length=text_max_length, help_text="Please enter the title of your poll.")
-    #
-    # views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    # likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    # slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-    #
-    # sm_choice = (
-    #     ('S', 'Single'),
-    #     ('M', 'Multiple')
-    # )
-    # choice = forms.ChoiceField(widget=forms.RadioSelect(), choices=sm_choice)
-    # context = forms.CharField(widget=forms.Textarea(), max_length=text_max_length, help_text="Please enter the description.")
-    # option1 = forms.CharField(max_length=text_max_length, help_text="Please enter the choice 1.")
-    # option2 = forms.CharField(max_length=text_max_length, help_text="Please enter the choice 2.")
-    # option3 = forms.CharField(max_length=text_max_length, help_text="Please enter the choice 3.")
-    # option4 = forms.CharField(max_length=text_max_length, help_text="Please enter the choice 4.")
-    # option5 = forms.CharField(max_length=text_max_length, help_text="Please enter the choice 5.")
-    # dead_choice = (
-    #     ('D', 'One Day'),
-    #     ('W', 'One Week'),
-    #     ('N', 'No End')
-    # )
-    # deadline = forms.ChoiceField(widget=forms.RadioSelect(), choices=dead_choice)
+    dead_choice = (
+        ('D', 'One Day'),
+        ('W', 'One Week'),
+        ('N', 'No End')
+    )
     TYPES = (
         ('S', 'Single'),
         ('M', 'Multiple'),
     )
-    type = forms.ChoiceField(widget=forms.RadioSelect(), choices=TYPES)
-    option1 = forms.CharField(required=False)
-    option2 = forms.CharField(required=False)
+    type = forms.ChoiceField(widget=forms.RadioSelect, choices=TYPES, initial='S')
+    context = forms.CharField(widget=forms.Textarea())
+    option1 = forms.CharField(required=True)
+    option2 = forms.CharField(required=True)
     option3 = forms.CharField(required=False)
     option4 = forms.CharField(required=False)
     option5 = forms.CharField(required=False)
+    due = forms.ChoiceField(widget=forms.RadioSelect, choices=dead_choice, initial='D', label='Deadline')
 
     class Meta:
         model = Topic
-        fields = ('title', 'context', 'type', 'option1', 'option2', 'option3', 'option4', 'option5', 'deadline')
-        exclude = ('author_id', 'posttime', 'count1', 'count2', 'count3')
+        fields = ('title', 'context', 'type', 'option1', 'option2', 'option3', 'option4', 'option5')
+        # exclude = ('author_id', 'posttime', 'count1', 'count2', 'count3')
 
 
 class PageForm(forms.ModelForm):

@@ -31,10 +31,10 @@ def about(request):
     return render(request, 'rango/about.html', context=context_dict)
 
 
-def show_category(request, category_name_slug):
+def show_poll(request, topic_title_slug):
     context_dict = {}
     # try:
-    category = Topic.objects.get(slug=category_name_slug)
+    category = Topic.objects.get(slug=topic_title_slug)
     pages = Page.objects.filter(category=category)
 
     context_dict['pages'] = pages
@@ -42,7 +42,7 @@ def show_category(request, category_name_slug):
 
     print(pages.id)
     print(category.id)
-    selections = TopicChooseDetail.objects.get(topic_id=category.id)
+    # selections = TopicChooseDetail.objects.get(topic_id=category.id)
     # except Category.DoesNotExist:
     #     context_dict['pages'] = None
     #     context_dict['category'] = None
@@ -57,16 +57,21 @@ def add_poll(request):
 
     if request.method == 'POST':
         form = TopicForm(request.POST)
-
         if form.is_valid():
-            # topic = form.save(commit=False)
-            # topic.author_id = user
-            # topic.cnt1 = 0
-            # topic.cnt2 = 0
-            # topic.cnt3 = 0
-            # topic.save()
-            form.save(commit=True)
+            topic = form.save(commit=False)
 
+            # Handles the deadline.
+            due = form.data.get('due')
+            if due == 'D':
+                topic.deadline = datetime.now() + timedelta(days=1)
+            elif due == 'W':
+                topic.deadline = datetime.now() + timedelta(weeks=1)
+            else:
+                topic.deadline = datetime.max
+            # Handles the author_id.
+            topic.author_user_id = user
+
+            topic.save()
             return redirect('/rango/')
         else:
             print(form.errors)
