@@ -23,28 +23,40 @@
             <h3>Popular vote</h3>
         </div>
 
-        <div class="list-group">
-            <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    124 July 28, 2021
-                </p>
-            </a>
-            <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    124 July 28, 2021
-                </p>
-            </a>
-            <a href="#" class="list-group-item">
-                <h3 class="list-group-item-heading">List group item heading</h3>
-                <p class="list-group-item-text">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    124 July 28, 2021
-                </p>
-            </a>
-        </div>
+        {% for topic in topic_list %}
+            <div class="list-group">
+                <a href="{% url 'rango:show_poll' topic.slug %}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ topic.title }}</h4>
+                    <p class="list-group-item-text">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        {{ topic.deadline }}
+                    </p>
+                </a>
+            </div>
+        {% endfor %}
+
+{#        <div class="list-group">#}
+{#            <a href="#" class="list-group-item">#}
+{#                <h4 class="list-group-item-heading">List group item heading</h4>#}
+{#                <p class="list-group-item-text">#}
+{#                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>#}
+{#                    124 July 28, 2021#}
+{#                </p>#}
+{#            </a>#}
+{#            <a href="#" class="list-group-item">#}
+{#                <h4 class="list-group-item-heading">List group item heading</h4>#}
+{#                <p class="list-group-item-text">#}
+{#                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>#}
+{#                    124 July 28, 2021#}
+{#                </p>#}
+{#            </a>#}
+{#            <a href="#" class="list-group-item">#}
+{#                <h3 class="list-group-item-heading">List group item heading</h3>#}
+{#                <p class="list-group-item-text">#}
+{#                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>#}
+{#                    124 July 28, 2021#}
+{#                </p>#}
+{#            </a>#}
+{#        </div>#}
     </div>
 {% endblock %}

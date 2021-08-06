@@ -10,17 +10,17 @@ from datetime import datetime
 
 
 def index(request):
-    category_list = Topic.objects.order_by('-likes')[:5]
-    page_list = Comment.objects.order_by('-views')[:5]
+    topic_list = Topic.objects.order_by('-likes')[:5]
+    # page_list = Comment.objects.order_by('-views')[:5]
 
-    context_dict = {}
-    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    context_dict['categories'] = category_list
-    context_dict['pages'] = page_list
+    # context_dict = {}
+    # context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
+    # context_dict['categories'] = topic_list
+    # context_dict['pages'] = page_list
 
-    visitor_cookie_handler(request)
+    # visitor_cookie_handler(request)
 
-    return render(request, 'rango/index.html', context=context_dict)
+    return render(request, 'rango/index.html', context={'topic_list': topic_list})
 
 
 def about(request):
