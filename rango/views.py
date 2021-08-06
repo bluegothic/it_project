@@ -1,5 +1,5 @@
 from django import forms
-from rango.forms import TopicForm, PageForm, UserForm, UserProfileForm, contextForm
+from rango.forms import TopicForm, UserForm, UserProfileForm, CommentForm
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.http import HttpResponse, request
@@ -10,44 +10,43 @@ from datetime import datetime
 
 
 def index(request):
-    category_list = Topic.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
+    topic_list = Topic.objects.order_by('-likes')[:5]
+    # page_list = Comment.objects.order_by('-views')[:5]
 
-    context_dict = {}
-    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    context_dict['categories'] = category_list
-    context_dict['pages'] = page_list
+    # context_dict = {}
+    # context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
+    # context_dict['categories'] = topic_list
+    # context_dict['pages'] = page_list
+    # visitor_cookie_handler(request)
 
-    visitor_cookie_handler(request)
-
-    return render(request, 'rango/index.html', context=context_dict)
+    return render(request, 'rango/index.html', context={'topic_list': topic_list})
 
 
 def about(request):
     context_dict = {}
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
-
     return render(request, 'rango/about.html', context=context_dict)
 
 
 def show_poll(request, topic_title_slug):
-    context_dict = {}
-    # try:
-    category = Topic.objects.get(slug=topic_title_slug)
-    pages = Page.objects.filter(category=category)
-
-    context_dict['pages'] = pages
-    context_dict['category'] = category
-
-    print(pages.id)
-    print(category.id)
-    # selections = TopicChooseDetail.objects.get(topic_id=category.id)
-    # except Category.DoesNotExist:
-    #     context_dict['pages'] = None
-    #     context_dict['category'] = None
-
-    return render(request, 'rango/category.html', context=context_dict)
+    topic = Topic.objects.get(slug=topic_title_slug)
+    comments = list(Comment.objects.filter(topic_id=topic.id))
+    form = CommentForm()
+    if request.method == 'POST':
+        op = request.POST.get('poll')
+        if op == 'op1':
+            topic.cnt1 += 1
+        elif op == 'op2':
+            topic.cnt2 += 1
+        elif op == 'op3':
+            topic.cnt3 += 1
+        elif op == 'op4':
+            topic.cnt4 += 1
+        elif op == 'op5':
+            topic.cnt5 += 1
+        topic.save()
+    return render(request, 'rango/poll.html', context={'topic': topic, 'comments': comments, 'form':form})
 
 
 @login_required
@@ -75,7 +74,6 @@ def add_poll(request):
             return redirect('/rango/')
         else:
             print(form.errors)
-
     return render(request, 'rango/add_poll.html', {'form': form})
 
 
@@ -191,30 +189,36 @@ def visitor_cookie_handler(request):
     request.session['visits'] = visits
 
 
-def add_comment(request, category_name_slug):
-    user = request.user
+@login_required()
+def add_comment(request, topic_title_slug):
     try:
-        category = Topic.objects.get(slug=category_name_slug)
+        topic = Topic.objects.get(slug=topic_title_slug)
     except:
-        category = None
-
-    if category is None:
+        topic = None
+    if topic is None:
         return redirect('/rango/')
 
-    form = contextForm()
-
+    form = CommentForm()
     if request.method == 'POST':
-        form = contextForm(request.POST)
+        form = CommentForm(request.POST)
 
         if form.is_valid():
-            if category:
-                Comment = form.save(commit=False)
-                Comment.topic_id = category
-                Comment.author_id = user
-                Comment.views = 0
-                Comment.save()
-                return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
+            post = form.save(commit=False)
+            # Comment.topic_id_id = topic
+
+            # Comment.date = datetime.date(now())
+            post.date = datetime.date(now())
+            user = request.user
+            post.author_user_id = user
+            post.topic_id = topic
+            # Comment.author_user_id_id = user
+            # Comment.topic_id = category
+            # Comment.author_id = user
+            # Comment.views = 0
+            post.save()
+            # return redirect(reverse('rango:show_poll', kwargs={'topic_title_slug': topic_title_slug}))
+            return redirect(reverse('rango:show_poll', kwargs={'topic_title_slug': topic_title_slug}))
         else:
             print(form.errors)
-    context_dict = {'form': form, 'category': category}
-    return render(request, 'rango/add_comment.html', context=context_dict)
+    # return redirect(reverse('rango:show_poll', kwargs={'topic_title_slug': topic_title_slug, 'form': form}))
+    return render(request, 'rango:', context={'form': form})
