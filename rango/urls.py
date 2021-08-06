@@ -16,4 +16,5 @@ urlpatterns = [
   path('logout/',views.user_logout,name='logout'),
   # path('category/<slug:category_name_slug>/add_comment/',views.add_comment,name='add_comment'),
   path('poll/',views.poll,name='poll'),
+  path('test/',views.test,name='test'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

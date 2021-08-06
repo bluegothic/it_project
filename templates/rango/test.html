@@ -1,0 +1,23 @@
+{% load static %}
+<html>
+<head>
+<title>Rango</title>
+</head>
+<body>
+<h1>Rango says...</h1>
+<div>
+{% if polls %}
+<ul>
+{% for poll in polls %}
+<li>{{ poll.name }}</li>
+{% endfor %}
+</ul>
+{% else %}
+<strong>There are no categories present.</strong>
+{% endif %}
+</div>
+<div>
+<a href="/rango/about/">About Rango</a><br />
+</div>
+</body>
+</html>

@@ -17,8 +17,11 @@ def index(request):
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
     context_dict['categories'] = category_list
     context_dict['pages'] = page_list
-
     visitor_cookie_handler(request)
+
+    poll_list = Topic.objects.order_by('-post_time')[:10]
+    context_dict = {'polls': poll_list}
+    print(poll_list)
 
     return render(request, 'rango/index.html', context=context_dict)
 
@@ -46,6 +49,23 @@ def show_category(request, category_name_slug):
     #     context_dict['category'] = None
 
     return render(request, 'rango/category.html', context=context_dict)
+
+
+def show_poll(request,topic_title_slug):
+    context_dict = {}
+
+    try:
+        topic = Topic.objects.get(slug=topic_title_slug)
+        comments = Comment.objects.filter(topic_id = topic)
+        context_dict['comments'] = comments
+
+    except topic.DoesNotExist:
+        context_dict['comments'] = None
+        context_dict['topic'] = None
+
+
+    return render(request, 'rango/index.html', context=context_dict)
+
 
 
 # @login_required
@@ -211,3 +231,11 @@ def add_comment(request, category_name_slug):
             print(form.errors)
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_comment.html', context=context_dict)
+
+
+def test(request):
+
+    poll_list = Topic.objects.order_by('-post_time')[:10]
+    context_dict = {'polls': poll_list}
+    print(poll_list)
+    return render(request, 'rango/test.html', context_dict)

@@ -47,4 +47,18 @@
             </a>
         </div>
     </div>
+
+
+    <div>
+        {% if polls %}
+<ul>
+{% for poll in polls %}
+<li>{{ poll.title }}</li>
+{% endfor %}
+</ul>
+{% else %}
+<strong>There are no categories present.</strong>
+{% endif %}</div>
+
+
 {% endblock %}
