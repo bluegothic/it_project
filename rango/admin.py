@@ -1,19 +1,23 @@
 from django.contrib import admin
-from rango.models import Category, Page, UserProfile, Comment
+from rango.models import Topic, Page, UserProfile, Comment
 
 
 # Register your models here.
 class PageAdmin(admin.ModelAdmin):
-  list_display = ('title','category','url')
+    list_display = ('title', 'category', 'url')
 
-class CategoryAdmin(admin.ModelAdmin):
-  prepopulated_fields={'slug':('name',)}
 
-admin.site.register(Category, CategoryAdmin)
+class TopicAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
+
+
+admin.site.register(Topic, TopicAdmin)
 admin.site.register(Page, PageAdmin)
 admin.site.register(UserProfile)
 
 
 class commentAdmin(admin.ModelAdmin):
-  list_display = ('author_id', 'topic_id', 'context', 'date')
+    list_display = ('author_id', 'topic_id', 'context', 'date')
+
+
 admin.site.register(Comment, commentAdmin)
