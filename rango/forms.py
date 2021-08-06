@@ -10,28 +10,21 @@ from rango.models import Page, Topic, UserProfile, Comment
 class TopicForm(forms.ModelForm):
     text_max_length = 128
     title = forms.CharField(max_length=text_max_length, help_text="Please enter the title of your poll.")
-    
+
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-    
+
     # sm_choice = (
     #     ('S', 'Single'),
     #     ('M', 'Multiple')
     # )
     # choice = forms.ChoiceField(widget=forms.RadioSelect(), choices=sm_choice,help_text="Please enter the type.")
-    context = forms.CharField(widget=forms.Textarea(), max_length=text_max_length, help_text="Please enter the description.")
+    context = forms.CharField(widget=forms.Textarea(), max_length=text_max_length,
+                              help_text="Please enter the description.")
     option1 = forms.CharField(max_length=text_max_length, help_text="Please enter the option 1.")
     option2 = forms.CharField(max_length=text_max_length, help_text="Please enter the option 2.")
     option3 = forms.CharField(max_length=text_max_length, help_text="Please enter the option 3.")
-    option4 = forms.CharField(max_length=text_max_length, help_text="Please enter the option 4.")
-    option5 = forms.CharField(max_length=text_max_length, help_text="Please enter the option 5.")
-    dead_choice = (
-        ('D', 'One Day'),
-        ('W', 'One Week'),
-        ('N', 'No End')
-    )
-    deadline = forms.ChoiceField(widget=forms.RadioSelect(), choices=dead_choice,help_text="Please select a  deadline.")
     # TYPES = (
     #     ('S', 'Single'),
     #     ('M', 'Multiple'),
@@ -45,7 +38,7 @@ class TopicForm(forms.ModelForm):
 
     class Meta:
         model = Topic
-        fields = ('title', 'context', 'option1', 'option2', 'option3', 'option4', 'option5', 'deadline')
+        fields = ('title', 'context', 'option1', 'option2', 'option3',)
         exclude = ('author_id', 'posttime', 'count1', 'count2', 'count3')
 
 

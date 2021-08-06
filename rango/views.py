@@ -57,12 +57,12 @@ def add_poll(request):
         form = TopicForm(request.POST)
 
         if form.is_valid():
-            # topic = form.save(commit=False)
-            # topic.author_id = user
-            # topic.cnt1 = 0
-            # topic.cnt2 = 0
-            # topic.cnt3 = 0
-            # topic.save()
+            topic = form.save(commit=False)
+            topic.author_id = user
+            topic.cnt1 = 0
+            topic.cnt2 = 0
+            topic.cnt3 = 0
+            topic.save()
             form.save(commit=True)
 
             return redirect('rango:index')
@@ -127,7 +127,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'rango/login.html',
+    return render(request, 'rango/register.html',
                   context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 

@@ -8,14 +8,14 @@ from datetime import timedelta
 # Create your models here.
 class Topic(models.Model):
     MAX_CHAR_LEN = 128
-    author_user_id = models.IntegerField(default=0)
+    author_user_id = models.CharField(max_length=MAX_CHAR_LEN)
     post_time = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField(default=now() + timedelta(hours=1))
+   # deadline = models.DateTimeField(default=now() + timedelta(hours=1))
     # TYPES = (
     #     ('S', 'Single'),
     #     ('M', 'Multiple'),
     # )
-    type = models.CharField(max_length=1, default='S')  # 0 单选  1 多选
+#   type = models.CharField(max_length=1, default='S')  # 0 单选  1 多选
     title = models.CharField(max_length=MAX_CHAR_LEN)
     context = models.CharField(max_length=MAX_CHAR_LEN)
     views = models.IntegerField(default=0)
@@ -23,13 +23,10 @@ class Topic(models.Model):
     option1 = models.CharField(max_length=MAX_CHAR_LEN)
     option2 = models.CharField(max_length=MAX_CHAR_LEN)
     option3 = models.CharField(max_length=MAX_CHAR_LEN)
-    option4 = models.CharField(max_length=MAX_CHAR_LEN)
-    option5 = models.CharField(max_length=MAX_CHAR_LEN)
+
     cnt1 = models.IntegerField(default=0)
     cnt2 = models.IntegerField(default=0)
     cnt3 = models.IntegerField(default=0)
-    cnt4 = models.IntegerField(default=0)
-    cnt5 = models.IntegerField(default=0)
 
     slug = models.SlugField(unique=True)
 
