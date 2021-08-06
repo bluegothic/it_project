@@ -43,7 +43,7 @@ class Topic(models.Model):
 class Comment(models.Model):
     author_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     topic_id = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    date = models.DateTimeField(default=datetime.date.today())
+    date = models.DateTimeField(default=now)
     context = models.CharField(max_length=MAX_CHAR_LEN)
 
     def __str__(self):
