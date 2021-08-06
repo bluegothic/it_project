@@ -1,29 +1,35 @@
 # it_project team kkpp
 
-https://github.com/bluegothic/it_project
+## [项目地址](https://github.com/bluegothic/it_project)
 
-## 环境
+## Deployment steps
 
-```
-conda create -n rango python=3.7.5
-conda activate rango
+### 看要求文件(需要进入项目目录)
+
+ `cat requirements.txt`
+
+### 使用如下命令建立并切换环境
+
+```sh
+conda create -n kkpp python=3.7.5
+conda activate kkpp
 conda install django==2.1.5
 conda install pillow
 ```
 
-## 数据库配置
+### Build db and contain some example data
 
-1 运行
+下面的脚本用于清空现有数据库
 
-`./freshDb.sh`
+ `./freshDb.sh`
 
-用于清空现有数据库（可能需要chmod）
+可能需要下面的命令给予执行权限
 
-2 运行
+ `chmod a+x xxx.sh`
 
-`python polls_dbitems.py`
+run contain data script
 
-填入数据
+ `python polls_dbitems.py`
 
 ## 需要满足的标准（搬运自4-ITECH-Project.pdf）
 
