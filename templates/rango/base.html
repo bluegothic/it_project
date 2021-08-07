@@ -37,7 +37,7 @@
                     <li><a href="#">Poll</a></li>
                     {% if user.is_authenticated %}
                         <li>Hello, {{ user.username }}</li>
-                        <li><a href="{% url 'rango:logout' %}">Sign Out</a></li>
+                        <li><a href="{% url 'rango:myaccount' %}">MyAccount</a></li>
                     {% else %}
                         <li><a href="{% url 'rango:login' %}">Login</a></li>
                     {% endif %}
@@ -52,14 +52,6 @@
     {% endblock %}
 </div>
 <hr/>
-<div>
-    <ul>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li>
-        {% endif %}
-        <li><a href="{% url 'rango:about' %}">About</a></li>
-    </ul>
-</div>
 
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </body>

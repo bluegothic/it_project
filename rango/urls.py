@@ -10,8 +10,7 @@ urlpatterns = [
   path('poll/<slug:topic_title_slug>/', views.show_poll, name='show_poll'),
   path('poll/<slug:topic_title_slug>/add_comment/', views.add_comment, name='add_comment'),
 
-  path('about/', views.about, name='about'),
-  path('category/<slug:category_name_slug>/add_page/',views.add_page,name='add_page'),
+  path('myaccount/', views.myaccount, name='myaccount'),
   path('register/',views.register,name='register'),
   path('login/',views.user_login,name='login'),
   path('restricted/',views.restricted,name='restricted'),

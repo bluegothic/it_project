@@ -22,11 +22,11 @@ def index(request):
     return render(request, 'rango/index.html', context={'topic_list': topic_list})
 
 
-def about(request):
+def myaccount(request):
     context_dict = {}
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
-    return render(request, 'rango/about.html', context=context_dict)
+    return render(request, 'rango/myaccount.html', context=context_dict)
 
 
 def show_poll(request, topic_title_slug):
@@ -75,33 +75,6 @@ def add_poll(request):
         else:
             print(form.errors)
     return render(request, 'rango/add_poll.html', {'form': form})
-
-
-@login_required
-def add_page(request, category_name_slug):
-    try:
-        category = Topic.objects.get(slug=category_name_slug)
-    except Topic.DoesNotExist:
-        category = None
-
-    if category is None:
-        return redirect('/rango/')
-
-    form = PageForm()
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if category:
-                page = form.save(commit=False)
-                page.category = category
-                page.views = 0
-                page.save()
-                return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
-        else:
-            print(form.errors)
-    context_dict = {'form': form, 'category': category}
-    return render(request, 'rango/add_page.html', context=context_dict)
 
 
 def register(request):
