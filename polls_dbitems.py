@@ -1,56 +1,50 @@
-import django
 import os
+import django
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'tango_with_django_project.settings')
 
 django.setup()
 
-from rango.models import Topic, Comment
+from rango.models import Comment, Topic
 
+# For an explanation of what is going on here, please refer to the TwD book.
 
 def populate():
-    python_pages = [
-        {'title': 'interesting',
-         'url': 'http://docs.python.org/3/tutorial/',
-         'views': 302, }, ]
 
-    django_pages = [
-        {'title': 'good luck',
-         'url': 'https://docs.djangoproject.com/en/2.1/intro/tutorial01/',
-         'views': 32, }, ]
+    commems = [
+        {'context': 'comment something',
+         'author_user_id': 1,
+         'topic_id_id': 1
+         }]
 
-    other_pages = [
-        {'title': 'my point',
-         'url': 'http://bottlepy.org/docs/dev/',
-         'views': 302, }, ]
+    cats = [
+        {
+            'authou_user_id': 1,
+            'title': 'Which one is better?',
+            'type': 'S',
+            'option1': ' Coca-Cola',
+            'option2': ' Pepsi-Cola', }]
 
-    cats = {'Apple vs Google?': {'pages': python_pages, 'views': 32, 'likes': 64},
-            'CCCP vs US?': {'pages': django_pages, 'views': 25, 'likes': 32},
-            'Glasgow vs Edingberg?': {'pages': other_pages, 'views': 200, 'likes': 16}}
-
-    for cat, cat_data in cats.items():
-        c = add_cat(cat, views=cat_data['views'], likes=cat_data['likes'])
-        for p in cat_data['pages']:
-            add_page(c, p['title'], p['url'], views=p['views'])
-
-    for c in Topic.objects.all():
-        for p in Comment.objects.filter(category=c):
-            print(f'- {c}: {p}')
+    for cat in cats:
+        add_cat(cat['authou_user_id'],cat['title'], cat['option1'], cat['option2'])
+    for p in commems:
+        add_com(p['context'], p['author_user_id'], p['topic_id_id'])
 
 
-def add_page(cat, title, url, views=0):
-    p = Page.objects.get_or_create(category=cat, title=title)[0]
-    p.url = url
-    p.views = views
+def add_com(context, author_user_id, topic_id_id):
+    p = Comment.objects.get_or_create(author_user_id=author_user_id)[0]
+    p.context = context
+    p.topic_id_id = topic_id_id
     p.save()
     return p
 
 
-def add_cat(name, views=0, likes=0):
-    c = Topic.objects.get_or_create(title=name)[0]
-    c.views = views
-    c.likes = likes
+def add_cat(authou_user_id, title, option1, option2):
+    c = Topic.objects.get_or_create(title=title)[0]
+    c.authou_user_id = authou_user_id
+    c.option1 = option1
+    c.option2 = option2
     c.save()
     return c
 
